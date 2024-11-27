@@ -3,26 +3,24 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<String> numKeys = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            numKeys.add("" + i);
-        }
-        ArrayList<String> operatorKeys = new ArrayList<>();
-        operatorKeys.add("+");
-        operatorKeys.add("-");
-        operatorKeys.add("*");
-        operatorKeys.add("%");
-        operatorKeys.add("^");
-        operatorKeys.add("/");
-        operatorKeys.add("=");
+
+        String[][] calculatormatrix = {
+                {"%", "CE", "C", "del"},
+                {"1/x", "^", "SQRT", "/"},
+                {"7", "8", "9", "*"},
+                {"4", "5", "6", "-"},
+                {"1", "2", "3", "+"},
+                {"", "0", ",", "="}
+        };
+
 
         System.out.println("Welcome to Calculator");
         System.out.println("Will create a new calculator for you Please Wait.");
         Calculator calculator = newCalculator("Jorge");
 
-        GraphicInterface graphicInterface = new GraphicInterface("Jorge Calculator", 310, 450, 50, 50);
+        GraphicInterface graphicInterface = new GraphicInterface("Jorge Calculator", 520, 860, 100, 100);
         graphicInterface.setDisplay();
-        graphicInterface.setKeys(numKeys, operatorKeys);
+        graphicInterface.setKeys(calculatormatrix);
         graphicInterface.draw();
 
         System.out.println("Will create a new calculator for: " + newCalculator("Jorge"));

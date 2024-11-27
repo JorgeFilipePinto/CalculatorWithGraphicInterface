@@ -14,6 +14,7 @@ public class GraphicInterface {
     int sizeButtonY;
     int buttonOffsetX;
     int buttonOffsetY;
+    int lastItemInsert = 0;
 
 
     GraphicInterface(String name, int sizeX, int sizeY, int sizeButtonX, int sizeButtonY) {
@@ -23,8 +24,8 @@ public class GraphicInterface {
         this.frame = new JFrame(this.name);
         this.sizeButtonX = sizeButtonX;
         this.sizeButtonY = sizeButtonY;
-        this.buttonOffsetX = 50;
-        this.buttonOffsetY = 100;
+        this.buttonOffsetX = 20;
+        this.buttonOffsetY = 20;
         frame.setSize(this.sizeX, this.sizeY);
         frame.setLayout(null);
     }
@@ -37,34 +38,23 @@ public class GraphicInterface {
         display.setBackground(Color.BLACK);
         display.setForeground(Color.RED);
         display.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-
+        lastItemInsert = display.getY() + display.getHeight();
         display.setText(this.name);
         frame.add(display);
     }
 
-    void setKeys(ArrayList<String> numbers, ArrayList<String> operators) {
-        ArrayList<JButton> allButtons = new ArrayList<>();
-        int posY = buttonOffsetY;
-        int posX = buttonOffsetX;
-        int opCounter = operators.size() - 1;
-        for(int i = 0; i < numbers.size(); i++) {
-            JButton newButton = new JButton(numbers.get(i));
-            newButton.setBounds(posX, posY, this.sizeButtonX, this.sizeButtonY);
-            allButtons.add(newButton);
-            frame.add(newButton);
-            if(((i+1) % 3) == 0) {
-                if(opCounter > 0){
-                    posX += this.sizeButtonX;
-                    newButton = new JButton(operators.get(opCounter));
-                    newButton.setBounds(posX, posY, this.sizeButtonX, this.sizeButtonY);
-                    allButtons.add(newButton);
-                    frame.add(newButton);
-                    opCounter--;
-                }
-                posX = buttonOffsetX;
-                posY += this.sizeButtonY + 20;
-            } else {
-                posX += this.sizeButtonX;
+    void setKeys(String[][] matrix) {
+
+        for(int i = 0; i < matrix.length; i++){
+            int posY = buttonOffsetY + lastItemInsert;
+            int posX = buttonOffsetX;
+            for(int j = 0; j < matrix[i].length; j++){
+                JButton newButton = new JButton(matrix[i][j]);
+                newButton.setBounds(posX, posY, this.sizeButtonX, this.sizeButtonY);
+                newButton.setFont(new Font("Arial", Font.BOLD, 20));
+                frame.add(newButton);
+                lastItemInsert = newButton.getY() + newButton.getHeight();
+                posX = newButton.getX() + newButton.getHeight() + buttonOffsetX;
             }
         }
     }
