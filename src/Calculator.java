@@ -16,7 +16,7 @@ public class Calculator {
         this.secondValue = num;
     }
 
-    double getOperation(int firstValue, int secondValue, String operation) {
+    double madeOperation(int firstValue, int secondValue, String operation) {
         this.firstValue = firstValue;
         this.secondValue = secondValue;
         this.operation = operation;
