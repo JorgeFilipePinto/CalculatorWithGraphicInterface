@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
 
         String[][] calculatormatrix = {
-                {"%", "CE", "C", "del"},
+                {"%", "CE", "C", ""},
                 {"1/x", "^", "SQRT", "/"},
                 {"7", "8", "9", "*"},
                 {"4", "5", "6", "-"},
@@ -18,13 +18,10 @@ public class Main {
         System.out.println("Will create a new calculator for you Please Wait.");
         Calculator calculator = newCalculator("Jorge");
 
-        GraphicInterface graphicInterface = new GraphicInterface("Jorge Calculator", 520, 860, 100, 100);
-        graphicInterface.setDisplay();
-        graphicInterface.setKeys(calculatormatrix);
-        graphicInterface.draw();
-
-        System.out.println("Will create a new calculator for: " + newCalculator("Jorge"));
-        System.out.println("First operation ADD 1 + 1 is: " + calculator.madeOperation(1,1,"+"));
+        GraphicInterface graphicInterface = new GraphicInterface(calculatormatrix,"Jorge Calculator", 100, 100, 20, 20);
+        graphicInterface.init();
+        /*System.out.println("Will create a new calculator for: " + newCalculator("Jorge"));
+        System.out.println("First operation ADD 1 + 1 is: " + calculator.madeOperation(1,1,"+"));*/
 
     }
 
