@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -22,7 +21,7 @@ public class GraphicInterface {
     String[][] map;
     Calculator calculator;
 
-
+    //Construtor da interface gráfica
     GraphicInterface(String[][] map, int sizeButtonX, int sizeButtonY, int offsetX, int offsetY, Calculator calculator) {
         this.map = map;
         this.frame = new JFrame("Calculator");
@@ -37,7 +36,7 @@ public class GraphicInterface {
         this.secondNumber = 0.0;
         this.calculator = calculator;
     }
-
+    //Inicializador da interface gráfica
     void init(){
         sizeFrameCalculator(map);
         setDisplay();
@@ -47,11 +46,13 @@ public class GraphicInterface {
         draw();
     }
 
+    //Claculadora de tamnhanho do frame, consoante as medidas fornecidas na criação do objeto irá se redimensionar automaticamente
     void sizeFrameCalculator(String[][] map){
         this.sizeX = (map[0].length + 2) * buttonOffsetX + (map[0].length) * sizeButtonX;
         this.sizeY = (map.length + 2) * buttonOffsetY + ((map.length) * sizeButtonY + 80 + buttonOffsetY);
     }
 
+    //Criação do display para apresentação dos digitos
     void setDisplay(){
         display = new JLabel("",SwingConstants.CENTER);
         display.setBounds(0, 0, sizeX, 80);
@@ -65,6 +66,7 @@ public class GraphicInterface {
         frame.add(display);
     }
 
+    //Criação de um array para armazenamento dos butões da calculadora, permitindo assim a criação dos butões mais rápido e reaproveitamento de código
     void setKeys() {
         for (int i = 0; i < map.length; i++) {
             int posY = buttonOffsetY + lastItemInsert;
@@ -78,6 +80,7 @@ public class GraphicInterface {
                 posX = newButton.getX() + newButton.getHeight() + buttonOffsetX;
                 buttonsCalculator.add(newButton);
 
+                //Verificação se é digito ou não para atribuição atribuição dos respetivos eventos
                 if (keyIsNumber(newButton.getText())) {
                     newButton.addActionListener(e -> NumberClick(newButton.getText()));
                 } else {
@@ -124,8 +127,9 @@ public class GraphicInterface {
         }
     }
 
+    //Envia o caracter da tecla de um dos operadores para a calculadora armazenar na sua memória
     void SetOperator(String operator) {
-        display.setText("");
+        setText("");
         if (!tempNumber.isEmpty()) {
             calculator.operation = operator;
             calculator.setFirstValue(Double.parseDouble(tempNumber));
@@ -134,39 +138,43 @@ public class GraphicInterface {
         }
     }
 
+    //Função de raíz quadrada
     void sqrtFunction() {
         System.out.println("Pressed: SQRT");
         if (!tempNumber.isEmpty()) {
-            display.setText("");
+            setText("");
             calculator.setFirstValue(Double.parseDouble(tempNumber));
             tempNumber = "";
-            display.setText(String.valueOf(calculator.sqrtFunction()));
+            setText(String.valueOf(calculator.sqrtFunction()));
             System.out.println(String.valueOf(calculator.sqrtFunction()));
         }
     }
 
+    //Função de divisor por 1
     void dividePerOne() {
         System.out.println("Pressed: 1/x");
         if (!tempNumber.isEmpty()) {
-            display.setText("");
+            setText("");
             calculator.setFirstValue(Double.parseDouble(tempNumber));
             tempNumber = "";
-            display.setText(String.valueOf(calculator.dividePerOne()));
+            setText(String.valueOf(calculator.dividePerOne()));
             System.out.println(String.valueOf(calculator.dividePerOne()));
         }
     }
 
+    //Função equal, chamada quando a tecla = é pressionada
     void Equal() {
         System.out.println("Pressed: =");
         if (!tempNumber.isEmpty()) {
-            display.setText("");
+            setText("");
             calculator.setSecondValue(Double.parseDouble(tempNumber));
-            display.setText(String.valueOf(calculator.setOperation()));
+            setText(String.valueOf(calculator.setOperation()));
             System.out.println(String.valueOf(calculator.setOperation()));
             tempNumber = "";
         }
     }
 
+    //Verificação se é número
     boolean keyIsNumber (String buttonName) {
         try{
             Integer.parseInt(buttonName);
@@ -176,30 +184,33 @@ public class GraphicInterface {
         }
     }
 
+    //Ação cada vez que um número é presionado
     void NumberClick(String buttonName) {
         if (buttonName.isEmpty() && buttonName != "0") {
             tempNumber = buttonName;
         } else if (!buttonName.isEmpty()) {
             tempNumber += buttonName;
         }
-        display.setText(tempNumber);
+        setText(tempNumber);
         System.out.println("Pressed: " + buttonName);
     }
 
+    //Para limpar um digito do display
     void Delete(){
         System.out.println("Pressed: C");
         if(!tempNumber.isEmpty()){
             tempNumber = tempNumber.substring(0, tempNumber.length() - 1);
             displayText = tempNumber;
             setText(displayText);
-            setText(displayText);
         }
     }
 
+    //Função chamada quando os botões são vazios
     void EmptyButton() {
         System.out.println("EmptyButton");
     }
 
+    //Elimina todos os digitos e operadores inseridos na calculadora
     void DeleteAll() {
         System.out.println("Pressed: CE");
         tempNumber = "";
@@ -209,10 +220,12 @@ public class GraphicInterface {
         secondNumber = 0.0;
     }
 
+    //Coloca o meu frame visible
     void draw() {
         frame.setVisible(true);
     }
 
+    //Envia o texto para o display
     void setText(String text) {
         display.setText(text);
     }
