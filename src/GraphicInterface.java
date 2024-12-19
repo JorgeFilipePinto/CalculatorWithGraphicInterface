@@ -140,9 +140,8 @@ public class GraphicInterface {
             display.setText("");
             calculator.setFirstValue(Double.parseDouble(tempNumber));
             tempNumber = "";
-            calculator.sqrtFunction();
-            display.setText(String.valueOf(calculator.result));
-            System.out.println(String.valueOf(calculator.result));
+            display.setText(String.valueOf(calculator.sqrtFunction()));
+            System.out.println(String.valueOf(calculator.sqrtFunction()));
         }
     }
 
@@ -152,9 +151,8 @@ public class GraphicInterface {
             display.setText("");
             calculator.setFirstValue(Double.parseDouble(tempNumber));
             tempNumber = "";
-            calculator.dividePerOne();
-            display.setText(String.valueOf(calculator.result));
-            System.out.println(String.valueOf(calculator.result));
+            display.setText(String.valueOf(calculator.dividePerOne()));
+            System.out.println(String.valueOf(calculator.dividePerOne()));
         }
     }
 
@@ -163,11 +161,9 @@ public class GraphicInterface {
         if (!tempNumber.isEmpty()) {
             display.setText("");
             calculator.setSecondValue(Double.parseDouble(tempNumber));
-            calculator.setOperation();
-            display.setText(String.valueOf(calculator.result));
-            System.out.println(String.valueOf(calculator.result));
+            display.setText(String.valueOf(calculator.setOperation()));
+            System.out.println(String.valueOf(calculator.setOperation()));
             tempNumber = "";
-            calculator.result = 0.0;
         }
     }
 

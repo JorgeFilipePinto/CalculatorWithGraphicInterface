@@ -1,37 +1,40 @@
+
+
+
 public class Calculator {
     double firstValue;
     double secondValue;
-    double result;
     String operation;
 
     Calculator () {
 
     }
 
-    void setOperation () {
+    double setOperation () {
         double calc = 0.0;
         switch (operation) {
             case "+":
-                addFunction();
+                calc = addFunction();
                 break;
             case "-":
-                subtractFunction();
+                calc = subtractFunction();
                 break;
             case "*":
-                multiplyFunction();
+                calc = multiplyFunction();
                 break;
             case "/":
-                divideFunction();
+                calc = divideFunction();
                 break;
             case "%":
-                moduleFunction();
+                calc = moduleFunction();
                 break;
             case "^":
-                powFunction();
+                calc = powFunction();
                 break;
             default:
               break;
         }
+        return calc;
     }
 
     void setFirstValue(double num) {
@@ -42,36 +45,36 @@ public class Calculator {
         secondValue = num;
     }
 
-    void addFunction() {
-        result = firstValue + secondValue;
+    double addFunction() {
+        return firstValue + secondValue;
     }
 
-    void subtractFunction() {
-        result = firstValue - secondValue;
+    double subtractFunction() {
+        return firstValue - secondValue;
     }
 
-    void divideFunction() {
-        result = firstValue / secondValue;
+    double divideFunction() {
+        return firstValue / secondValue;
     }
 
-    void multiplyFunction() {
-        result = firstValue * secondValue;
+    double multiplyFunction() {
+        return firstValue * secondValue;
     }
 
-    void powFunction() {
-        result = Math.pow(firstValue, secondValue);
+    double powFunction() {
+        return Math.pow(firstValue, secondValue);
     }
 
-    void moduleFunction() {
-        result = firstValue % secondValue;
+    double moduleFunction() {
+        return firstValue % secondValue;
     }
 
-    void sqrtFunction() {
-        result = Math.sqrt(firstValue);
+    double sqrtFunction() {
+        return Math.sqrt(firstValue);
     }
 
-    void dividePerOne() {
-        result = 1 / firstValue;
+    double dividePerOne() {
+        return 1 / firstValue;
     }
 
 }
