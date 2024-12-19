@@ -15,18 +15,17 @@ public class GraphicInterface {
     private JLabel display;
     private String displayText;
     private ArrayList<JButton> buttonsCalculator = new ArrayList<>();
-    String name;
     String operator;
     Double firstNumber;
     Double secondNumber;
     String tempNumber;
     String[][] map;
+    Calculator calculator = new Calculator();
 
 
-    GraphicInterface(String[][] map, String name, int sizeButtonX, int sizeButtonY, int offsetX, int offsetY) {
+    GraphicInterface(String[][] map, int sizeButtonX, int sizeButtonY, int offsetX, int offsetY) {
         this.map = map;
-        this.name = name;
-        this.frame = new JFrame(this.name);
+        this.frame = new JFrame("Calculator");
         this.displayText = "";
         this.sizeButtonX = sizeButtonX;
         this.sizeButtonY = sizeButtonY;
@@ -39,39 +38,39 @@ public class GraphicInterface {
     }
 
     void init(){
-        sizeFrameCalculator(this.map);
+        sizeFrameCalculator(map);
         setDisplay();
         setKeys();
-        frame.setSize(this.sizeX, this.sizeY);
+        frame.setSize(sizeX, sizeY);
         frame.setLayout(null);
         draw();
     }
 
     void sizeFrameCalculator(String[][] map){
-        this.sizeX = (map[0].length + 2) * buttonOffsetX + (map[0].length) * this.sizeButtonX;
-        this.sizeY = (map.length + 2) * buttonOffsetY + ((map.length) * this.sizeButtonY + 80 + buttonOffsetY);
+        this.sizeX = (map[0].length + 2) * buttonOffsetX + (map[0].length) * sizeButtonX;
+        this.sizeY = (map.length + 2) * buttonOffsetY + ((map.length) * sizeButtonY + 80 + buttonOffsetY);
     }
 
     void setDisplay(){
         display = new JLabel("",SwingConstants.CENTER);
-        display.setBounds(0, 0, this.sizeX, 80);
+        display.setBounds(0, 0, sizeX, 80);
         display.setOpaque(true);
         display.setFont(new Font("Arial", Font.BOLD, 20));
         display.setBackground(Color.BLACK);
         display.setForeground(Color.RED);
         display.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         lastItemInsert = display.getY() + display.getHeight();
-        display.setText(this.name);
+        display.setText("Calculator");
         frame.add(display);
     }
 
     void setKeys() {
-        for(int i = 0; i < this.map.length; i++){
+        for (int i = 0; i < map.length; i++) {
             int posY = buttonOffsetY + lastItemInsert;
             int posX = buttonOffsetX;
-            for(int j = 0; j < this.map[i].length; j++){
-                JButton newButton = new JButton(this.map[i][j]);
-                newButton.setBounds(posX, posY, this.sizeButtonX, this.sizeButtonY);
+            for (int j = 0; j < map[i].length; j++) {
+                JButton newButton = new JButton(map[i][j]);
+                newButton.setBounds(posX, posY, sizeButtonX, sizeButtonY);
                 newButton.setFont(new Font("Arial", Font.BOLD, 20));
                 frame.add(newButton);
                 lastItemInsert = newButton.getY() + newButton.getHeight();
@@ -80,17 +79,54 @@ public class GraphicInterface {
 
                 if (keyIsNumber(newButton.getText())) {
                     newButton.addActionListener(e -> NumberClick(newButton.getText()));
-                } else if(newButton.getText() == "C"){
-                    newButton.addActionListener(e -> Delete());
-                } else if(newButton.getText() == "CE"){
-                    newButton.addActionListener(e -> DeleteAll());
-                } else if(newButton.getText() == "") {
-                    newButton.addActionListener(e -> EmptyButton());
-                }else {
-                    newButton.addActionListener(e -> OperatorClick(newButton.getText()));
+                } else {
+                    switch (newButton.getText()) {
+                        case "C":
+                            newButton.addActionListener(e -> Delete());
+                            break;
+                        case "CE":
+                            newButton.addActionListener(e -> DeleteAll());
+                            break;
+                        case "+":
+                            newButton.addActionListener(e -> SetOperator(newButton.getText()));
+                            break;
+                        case "-":
+                            newButton.addActionListener(e -> SetOperator(newButton.getText()));
+                            break;
+                        case "/":
+                            newButton.addActionListener(e -> SetOperator(newButton.getText()));
+                            break;
+                        case "*":
+                            newButton.addActionListener(e -> SetOperator(newButton.getText()));
+                            break;
+                        case "=":
+                            newButton.addActionListener(e -> Equal());
+                            break;
+                        case "":
+                            newButton.addActionListener(e -> EmptyButton());
+                            break;
+                    }
                 }
             }
         }
+    }
+
+    void SetOperator(String operator) {
+        display.setText("");
+        calculator.operation = operator;
+        calculator.setFirstValue(Double.parseDouble(tempNumber));
+        tempNumber = "";
+        System.out.println("Pressed: " + operator);
+    }
+
+    void Equal() {
+        System.out.println("Pressed: =");
+        display.setText("");
+        calculator.setSecondValue(Double.parseDouble(tempNumber));
+        calculator.setOperation();
+        display.setText(String.valueOf(calculator.result));
+        System.out.println(String.valueOf(calculator.result));
+        tempNumber = "";
     }
 
     boolean keyIsNumber (String buttonName) {
@@ -103,39 +139,22 @@ public class GraphicInterface {
     }
 
     void NumberClick(String buttonName) {
-        if(this.operator == "") {
-            this.tempNumber += buttonName;
-            this.displayText = this.tempNumber;
-            setText(this.displayText);
-            System.out.println("Key" + buttonName);
-        } else if(!(this.operator == "")) {
-            this.tempNumber += buttonName;
-            this.displayText = this.tempNumber;
-            setText(this.displayText);
-            System.out.println("Key" + buttonName);
+        if (buttonName.isEmpty() && buttonName != "0") {
+            tempNumber = buttonName;
+        } else if (!buttonName.isEmpty()) {
+            tempNumber += buttonName;
         }
-    }
-
-    void OperatorClick(String buttonOperator) {
-        if(this.operator == "") {
-            this.firstNumber = Double.parseDouble(this.tempNumber);
-            this.displayText = this.tempNumber + buttonOperator;
-            setText(this.displayText);
-            this.tempNumber = "";
-            this.operator = buttonOperator;
-        } else if(!(this.operator == "")) {
-            this.operator = buttonOperator;
-            this.displayText = this.firstNumber + buttonOperator;
-            setText(this.displayText);
-        }
+        display.setText(tempNumber);
+        System.out.println("Pressed: " + buttonName);
     }
 
     void Delete(){
-        if(!this.tempNumber.isEmpty()){
-            this.tempNumber = this.tempNumber.substring(0, this.tempNumber.length() - 1);
-            this.displayText = this.tempNumber;
-            setText(this.displayText);
-            setText(this.displayText);
+        System.out.println("Pressed: C");
+        if(!tempNumber.isEmpty()){
+            tempNumber = tempNumber.substring(0, tempNumber.length() - 1);
+            displayText = tempNumber;
+            setText(displayText);
+            setText(displayText);
         }
     }
 
@@ -144,10 +163,12 @@ public class GraphicInterface {
     }
 
     void DeleteAll() {
-        this.tempNumber = "";
-        this.displayText = this.tempNumber;
-        setText(this.displayText);
-        setText(this.displayText);
+        System.out.println("Pressed: CE");
+        tempNumber = "";
+        displayText = "";
+        setText(displayText);
+        firstNumber = 0.0;
+        secondNumber = 0.0;
     }
 
     void draw() {
@@ -155,7 +176,7 @@ public class GraphicInterface {
     }
 
     void setText(String text) {
-        this.display.setText(text);
+        display.setText(text);
     }
 
 }

@@ -1,74 +1,63 @@
 public class Calculator {
     double firstValue;
     double secondValue;
+    double result;
     String operation;
-    String name;
 
-    Calculator (String name) {
-        this.name = name;
+    Calculator () {
+
     }
 
-    public void getFirstValue(double num) {
-        this.firstValue = num;
-    }
-
-    public void getSecondValue(double num) {
-        this.secondValue = num;
-    }
-
-    double madeOperation(int firstValue, int secondValue, String operation) {
-        this.firstValue = firstValue;
-        this.secondValue = secondValue;
-        this.operation = operation;
-        double result = 0;
-        switch (this.operation) {
+    void setOperation () {
+        double calc = 0.0;
+        switch (operation) {
             case "+":
-                result = addFunction();
+                addFunction();
                 break;
             case "-":
-                result = subtractFunction();
+                subtractFunction();
                 break;
             case "*":
-                result = multiplyFunction();
+                multiplyFunction();
                 break;
             case "/":
-                result = divideFunction();
-                break;
-            case "%":
-                result = moduleFunction();
-                break;
-            case "**":
-                result = powFunction();
+                divideFunction();
                 break;
             default:
-                System.out.println("Invalid operation\nPlease try again");
-                break;
+              break;
         }
-        return result;
     }
 
-    double addFunction() {
-        return this.firstValue + this.secondValue;
+    void setFirstValue(double num) {
+        firstValue = num;
     }
 
-    double subtractFunction() {
-        return this.firstValue - this.secondValue;
+    void setSecondValue(double num) {
+        secondValue = num;
     }
 
-    double divideFunction() {
-        return this.firstValue / this.secondValue;
+    void addFunction() {
+        result = firstValue + secondValue;
     }
 
-    double multiplyFunction() {
-        return this.firstValue * this.secondValue;
+    void subtractFunction() {
+        result = firstValue - secondValue;
     }
 
-    double powFunction() {
-        return Math.pow(this.firstValue, this.secondValue);
+    void divideFunction() {
+        result = firstValue / secondValue;
     }
 
-    double moduleFunction() {
-        return this.firstValue % this.secondValue;
+    void multiplyFunction() {
+        result = firstValue * secondValue;
+    }
+
+    void powFunction() {
+        result = Math.pow(firstValue, secondValue);
+    }
+
+    void moduleFunction() {
+        result = firstValue % secondValue;
     }
 
 }

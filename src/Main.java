@@ -12,8 +12,7 @@ public class Main {
                 {"1", "2", "3", "+"},
                 {"", "0", ",", "="}
         };
-
-        GraphicInterface graphicInterface = new GraphicInterface(calculatormatrix,"Jorge Calculator", 100, 100, 20, 20);
+        GraphicInterface graphicInterface = new GraphicInterface(calculatormatrix, 100, 100, 20, 20);
         graphicInterface.init();
 
     }
