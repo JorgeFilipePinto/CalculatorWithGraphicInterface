@@ -23,6 +23,12 @@ public class Calculator {
             case "/":
                 divideFunction();
                 break;
+            case "%":
+                moduleFunction();
+                break;
+            case "^":
+                powFunction();
+                break;
             default:
               break;
         }
@@ -58,6 +64,14 @@ public class Calculator {
 
     void moduleFunction() {
         result = firstValue % secondValue;
+    }
+
+    void sqrtFunction() {
+        result = Math.sqrt(firstValue);
+    }
+
+    void dividePerOne() {
+        result = 1 / firstValue;
     }
 
 }

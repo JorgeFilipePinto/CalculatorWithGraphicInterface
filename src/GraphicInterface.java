@@ -20,10 +20,10 @@ public class GraphicInterface {
     Double secondNumber;
     String tempNumber;
     String[][] map;
-    Calculator calculator = new Calculator();
+    Calculator calculator;
 
 
-    GraphicInterface(String[][] map, int sizeButtonX, int sizeButtonY, int offsetX, int offsetY) {
+    GraphicInterface(String[][] map, int sizeButtonX, int sizeButtonY, int offsetX, int offsetY, Calculator calculator) {
         this.map = map;
         this.frame = new JFrame("Calculator");
         this.displayText = "";
@@ -35,6 +35,7 @@ public class GraphicInterface {
         this.operator = "";
         this.firstNumber = 0.0;
         this.secondNumber = 0.0;
+        this.calculator = calculator;
     }
 
     void init(){
@@ -102,6 +103,18 @@ public class GraphicInterface {
                         case "=":
                             newButton.addActionListener(e -> Equal());
                             break;
+                        case "%":
+                            newButton.addActionListener(e -> SetOperator(newButton.getText()));
+                            break;
+                        case "^":
+                            newButton.addActionListener(e -> SetOperator(newButton.getText()));
+                            break;
+                        case "SQRT":
+                            newButton.addActionListener(e -> sqrtFunction());
+                            break;
+                        case "1/x":
+                            newButton.addActionListener(e -> dividePerOne());
+                            break;
                         case "":
                             newButton.addActionListener(e -> EmptyButton());
                             break;
@@ -113,20 +126,49 @@ public class GraphicInterface {
 
     void SetOperator(String operator) {
         display.setText("");
-        calculator.operation = operator;
-        calculator.setFirstValue(Double.parseDouble(tempNumber));
-        tempNumber = "";
-        System.out.println("Pressed: " + operator);
+        if (!tempNumber.isEmpty()) {
+            calculator.operation = operator;
+            calculator.setFirstValue(Double.parseDouble(tempNumber));
+            tempNumber = "";
+            System.out.println("Pressed: " + operator);
+        }
+    }
+
+    void sqrtFunction() {
+        System.out.println("Pressed: SQRT");
+        if (!tempNumber.isEmpty()) {
+            display.setText("");
+            calculator.setFirstValue(Double.parseDouble(tempNumber));
+            tempNumber = "";
+            calculator.sqrtFunction();
+            display.setText(String.valueOf(calculator.result));
+            System.out.println(String.valueOf(calculator.result));
+        }
+    }
+
+    void dividePerOne() {
+        System.out.println("Pressed: 1/x");
+        if (!tempNumber.isEmpty()) {
+            display.setText("");
+            calculator.setFirstValue(Double.parseDouble(tempNumber));
+            tempNumber = "";
+            calculator.dividePerOne();
+            display.setText(String.valueOf(calculator.result));
+            System.out.println(String.valueOf(calculator.result));
+        }
     }
 
     void Equal() {
         System.out.println("Pressed: =");
-        display.setText("");
-        calculator.setSecondValue(Double.parseDouble(tempNumber));
-        calculator.setOperation();
-        display.setText(String.valueOf(calculator.result));
-        System.out.println(String.valueOf(calculator.result));
-        tempNumber = "";
+        if (!tempNumber.isEmpty()) {
+            display.setText("");
+            calculator.setSecondValue(Double.parseDouble(tempNumber));
+            calculator.setOperation();
+            display.setText(String.valueOf(calculator.result));
+            System.out.println(String.valueOf(calculator.result));
+            tempNumber = "";
+            calculator.result = 0.0;
+        }
     }
 
     boolean keyIsNumber (String buttonName) {
