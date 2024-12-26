@@ -1,0 +1,29 @@
+version: "3.8"
+
+
+services:
+  servidor:
+    image: mydocker:latest
+    stdin_open: true
+    tty: true
+    command: bash -c "cd /calculator/Servidor && javac *.java && java ServidorRMI"
+    volumes:
+      - /home/jorge/calculator:/calculator
+    network_mode: host
+
+  cliente:
+    image: mydocker:latest
+    stdin_open: true
+    tty: true
+    command: bash -c "cd /calculator/Graphic_Interface && javac *.java && echo -e \"100 100 20 20\" | java Main"
+    environment:
+      - DISPLAY=${DISPLAY}
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+      - PULSE_SERVER=${PULSE_SERVER}
+    volumes:
+      - /home/jorge/calculator:/calculator
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /mnt/wslg:/mnt/wslg
+    network_mode: host
+
